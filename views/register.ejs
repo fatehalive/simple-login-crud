@@ -1,0 +1,57 @@
+<%- include('partials/head') %>
+
+<body>
+    <div class="my-container">
+        <form class="nes-container with-title is-rounded my-bg is-light" method="POST" action="/register"
+            enctype="application/x-www-form-urlencoded">
+            <p class="title my-bg is-light">Registrasi</p>
+            <div class="nes-field is-inline">
+                <label for="nama">Nama:</label>
+                <input type="text" name="nama" id="nama" class="nes-input" placeholder="masukkan nama anda">
+            </div>
+
+            <div class="nes-field is-inline" style="margin: 1em 3em;">Kelamin:
+                <label>
+                    <input type="radio" class="nes-radio" name="kelamin" value="pria"/>
+                    <span>Pria</span>
+                </label>
+                <label>
+                    <input type="radio" class="nes-radio" name="kelamin" value="wanita"/>
+                    <span>Wanita</span>
+                </label>
+            </div>
+
+            <div class="nes-field is-inline">
+                <label for="usia">Usia:</label>
+                <input type="number" name="usia" id="usia" class="nes-input" placeholder="10+ only">
+            </div>
+
+            <div class="nes-field is-inline">
+                <label for="username">Username:</label>
+                <input type="text" name="username" id="username" class="nes-input" placeholder="buat username anda">
+            </div>
+
+            <div class="nes-field is-inline">
+                <label for="email">Email:</label>
+                <input type="text" name="email" id="email" class="nes-input" placeholder="example@email.com">
+            </div>
+
+            <div class="nes-field is-inline">
+                <label for="password">Password:</label>
+                <input type="password" name="password" id="password" class="nes-input" placeholder="$#dQ5">
+            </div>
+
+            <button type="submit" class="nes-btn is-primary">Submit</button>
+        </form>
+
+        <section class="message -right border">
+            <i class="nes-octocat animate my-octocat in-register"></i>
+            <p class="nes-balloon from-right nes-pointer my-balloon in-register <%= style %> ">
+                <%= message %> 
+            </p>
+        </section>
+    </div>
+    <% include('partials/script')  %> 
+</body>
+
+</html>

@@ -4,8 +4,8 @@
   "description": "binar academy challenge",
   "main": "server.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node server.js"
+    "test": "node server.js",
+    "start": "nodemon server.js"
   },
   "keywords": [
     "javascript",
@@ -19,6 +19,7 @@
   "dependencies": {
     "ejs": "^3.1.6",
     "express": "^4.17.1",
-    "mongoose": "^5.12.3"
+    "mongoose": "^5.12.3",
+    "nodemon": "^2.0.7"
   }
 }

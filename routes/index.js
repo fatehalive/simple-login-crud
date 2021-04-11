@@ -1,11 +1,13 @@
 const express = require('express');
-const indexRouter = express.Router();
+const rootRouter = express.Router();
 
-// Homepage
-indexRouter.get('/', (req, res, next) => {
-  const tangkap = req.path;
-  console.log(tangkap);
-  res.send(`Your request is ${req.method} ${tangkap}\n`);
+// const {testController} = require('../utils/testing')
+
+// Root = '/' atau Homepage
+// GET /
+rootRouter.get('/', (req, res, next) => {
+    console.log(`Your request is ${req.method} ${req.path}\n`);
+    res.render('index');
 });
 
-module.exports = indexRouter;
+module.exports = rootRouter;

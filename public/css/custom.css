@@ -1,0 +1,41 @@
+body {
+    background-color: hsl(204, 86%, 53%);
+}
+
+.border {
+    border: 1px solid black;
+}
+
+.my-container {
+    width: 85%;
+    margin: auto;
+    padding: 2em;
+}
+
+.my-bg.is-light {
+    background-color: hsl(240, 2%, 85%) !important;
+}
+
+.my-bg.is-blank {
+    background-color: hsla(0, 0%, 100%, 0) !important;
+}
+
+.my-octocat.in-register {
+    float: right;
+    position: relative;
+    top: 4em;
+    left: 0em;
+    right: 0em;
+    bottom: 0em;
+    z-index: 1;
+}
+
+.my-balloon.in-register {
+    float: right;
+    position: relative;
+    top: 0em;
+    left: 0em;
+    right: 0em;
+    bottom: 0em;
+    z-index: 2;
+}
