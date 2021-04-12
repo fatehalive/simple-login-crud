@@ -1,11 +1,13 @@
 const express = require('express');
 const registerRouter = express.Router();
-const {getRegisterController, postRegisterController} = require('../controllers/register');
+// const getEncrypt = require('../utils/getencrypt');
+
+const {getRegister, postRegister} = require('../controllers/register');
 
 // Root = '/register'
 // GET /register
-registerRouter.get('/', getRegisterController);
+registerRouter.get('/', getRegister);
 // POST /register
-registerRouter.post('/', postRegisterController);
+registerRouter.post('/', postRegister);
 
 module.exports = registerRouter;

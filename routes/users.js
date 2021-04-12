@@ -1,19 +1,17 @@
 const express = require('express');
-const router = express.Router();
+const userRouter = express.Router();
 
-const {readUser, createUser, updateUser, deleteUser} = require('../controllers/users.js');
-
-// GET reguler
-router.get('/', readUser());
-
-// GET spesifik
-router.get('/:id', readUser());
+const {createUser, readUsers, updateUser, deleteUser, readUser} = require('../controllers/users.js');
 
 // POST reguler
-router.post('/', createUser());
-
+userRouter.post('/', createUser());
+// GET reguler
+userRouter.get('/', readUsers());
+// GET spesifik
+userRouter.get('/:id', readUser());
 // PUT spesifik
-router.put('/:id', updateUser());
-
+userRouter.put('/:id', updateUser());
 // DELETE spesifik
-router.delete('/:id', deleteUser());
+userRouter.delete('/:id', deleteUser());
+
+module.exports = userRouter;

@@ -1,7 +1,10 @@
 const express = require('express');
+const mongoose = require('mongoose');
+const cookieParser = require('cookie-parser');
 const PORT = 3000;
-
 const app = express();
+
+const {UserDB, BiodataDB, HistoryDB} = require('./models/triInOne');
 
 // Monolith dengan template engine EJS
 app.set('view engine', 'ejs');
@@ -9,22 +12,24 @@ app.set('views', 'views');
 
 // Serving static files pada direktori '/public'
 app.use(express.static('public'));
+// Untuk parsing url encoded x-www-application/form
 app.use(express.urlencoded({
   extended: true
 }));
+// Untuk parse JSON bodies
 app.use(express.json());
+app.use(cookieParser());
 
-// Init data static
-const users = [{
-  // Init data super user ke array utk login
-  usernama: 'admin',
-  email: 'admin@binar.co.id',
-  // ini hashed value dari 'admin'
-  password: 'jGl25bVBBBW96Qi9Te4V37Fnqchz/Eu4qB9vKrRIqRg='
-}];
+// // Inject request user
+// app.use((req, res, next) => {
+//   // Get auth token from the cookies
+//   const authToken = req.cookies['AuthToken'];
 
-// Objek kosong simpan info user beserta authTokens
-const authTokens = {};
+//   // Inject the user to the request
+//   req.user = authTokens[authToken];
+
+//   next();
+// });
 
 // Import dan mount rootRouter (atau homepage)
 const rootRouter = require('./routes/index.js');
@@ -34,50 +39,57 @@ app.use('/', rootRouter);
 const registerRouter = require('./routes/register');
 app.use('/register', registerRouter);
 
-// GET login
-app.get('/login', (req, res, next) => {
-  res.render('login', {
-    message: 'Selamat datang kembali, miaw! Silahkan login, miaw!',
-    style: ''
-  });
-});
+// Import dan mount loginRouter
+const loginRouter = require('./routes/login');
+app.use('/login', loginRouter);
 
-// jangan lupa pindahkan ke login controller
-const getEncrypt = require('./utils/getencrypt');
+// Import dan mount dashboardRouter
+const dashboardRouter = require('./routes/dashboard');
+app.use('/dashboard', dashboardRouter);
 
-// POST login
-app.post('/login', (req, res, next) => {
-  const {
-    username,
-    email,
-    password
-  } = req.body;
-  const passwordEncrypted = getEncrypt(password);
+// Jangan lupa pecah kode ke routes dan controller !
+// CREATE
+app.post('/users', async (req, res, next) => {
+  const { username, email, password } = await req.body;
 
-  // pada elemen pertama array, pengecekan 3 input valuenya
-  const user = users.find((u) => {
-    return u.username === username && u.email === email && hashedPassword === u.password
-  });
-
+  const user = await UserDB.create({username, email, password})
   if (user) {
-    const authToken = generateAuthToken();
-  };
-
-  // Store authentication token
-  authTokens[authToken] = user;
-
-  // Set auth token kedalam cookies
-  res.cookie('AuthToken', authToken);
-
-  // Redirect ke protected page
-  res.redirect('/dashboard');
-
-  res.status(301).render('dashboard');
-});
-
-// Import dan mount expressionsRouter
-const expressionsRouter = require('./routes/expressions.js');
-app.use('/expressions', expressionsRouter);
+    const getNumber = () => {
+      Math.floor(Math.random() * 11);
+    }
+    BiodataDB.create({user_id: user.id})
+    HistoryDB.create({user_id: user.id, playing: getNumber(), win : getNumber(), lose: getNumber()})
+  }
+  return res.json(userGame)
+})
+// READ
+app.get('/users', async (req, res, next) => {
+    const user = await UserDB.find()
+    return res.json(user);
+})
+// UPDATE
+app.put('/users/:id', (req, res, next) => {
+  const id = req.params.id;
+  const { username, email, password } = req.body;
+  const user = UserDB.findById(id);
+  user.username = username || UserDB.username;
+  user.email = email || UserDB.email;
+  user.password = password || UserDB.password;
+  user.save();
+  res.json(userGame);
+})
+// DELETE
+app.delete('/users/:id', (req, res, next) => {
+  const id = req.params.id;
+  UserDB.findByIdAndDelete(id);
+  res.json(UserDB.find());
+})
+// FIND
+app.get('users/:id', (req, res, next) => {
+  const id = req.params.id;
+  const user = UserDB.findById(id);
+  res.json(user);
+})
 
 // Semua rute yang belum dibuat, kita respon hlm 404
 const getError = require('./utils/error');
@@ -85,4 +97,11 @@ app.get('*', getError);
 
 app.listen(PORT, () => {
   console.log(`Server is listening on ${PORT}`);
+  mongoose
+  .connect('mongodb://localhost/bootcamp_binar', {
+    useNewUrlParser: true,
+    useUnifiedTopology: true
+  })
+  .then(() => console.log('Mongodb Connected'))
+  .catch((err) => console.log(err));
 });

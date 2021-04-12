@@ -10,9 +10,19 @@ const crypto = require('crypto');
 // local storage atau session storage. Tapi, cookies juga bisa sebagai
 // tempat penyimpanan JWT.
 
-// Init JWT atau JSON Web Token
+// Fungsi untuk init JWT atau JSON Web Token
 const generateAuthToken = () => {
     return crypto.randomBytes(30).toString('hex');
 };
 
-module.exports = generateAuthToken;
+// Token tsb nanti masuk kesini
+var authToken = {};
+
+// Lalu dimasukkan ke objek ini
+var authTokens = {};
+
+module.exports = {
+    generateAuthToken: generateAuthToken,
+    authToken: authToken,
+    authTokens: authTokens
+};

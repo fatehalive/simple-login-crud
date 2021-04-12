@@ -1,0 +1,35 @@
+<%- include('partials/head') %>
+
+<body>
+    <div class="my-container">
+        <form class="nes-container with-title is-rounded my-bg is-light" method="POST" action="/login">
+            <p class="title my-bg is-light">Dashboard</p>
+            <div class="nes-field is-inline">
+                <label for="username">Username</label>
+                <input type="text" name="username" id="username" class="nes-input" placeholder="masukkan username">
+            </div>
+
+            <div class="nes-field is-inline">
+                <label for="email">Email</label>
+                <input type="text" name="email" id="email" class="nes-input" placeholder="masukkan email">
+            </div>
+
+            <div class="nes-field is-inline">
+                <label for="password">Password</label>
+                <input type="password" name="password" id="password" class="nes-input" placeholder="masukkan password">
+            </div>
+
+            <button type="submit" class="nes-btn is-primary">Submit</button>
+        </form>
+
+        <section class="message -right border">
+            <i class="nes-octocat animate my-octocat in-register"></i>
+            <p class="nes-balloon from-right nes-pointer my-balloon in-register">
+                <%= message %>
+            </p>
+        </section>
+    </div>
+    <% include('partials/script')  %>
+</body>
+
+</html>
